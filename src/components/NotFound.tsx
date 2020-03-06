@@ -5,7 +5,7 @@ export interface NotFoundProps { }
 
 const NotFound: React.FunctionComponent<NotFoundProps> = () => (
   <Box textAlign="center">
-    <Typography variant="h2" component="h1" gutterBottom>
+    <Typography variant="h2" component="p" gutterBottom>
       {'404'}
     </Typography>
     <Typography component="p" gutterBottom>

@@ -22,7 +22,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-
 const Todo: React.FunctionComponent<TodoProps> = ({ todo, onClick }) => {
   const classes = useStyles()
 
@@ -31,6 +30,7 @@ const Todo: React.FunctionComponent<TodoProps> = ({ todo, onClick }) => {
       button
       onClick={() => todo.id ? onClick(todo.id) : false}
       className={`${classes.root} ${todo.completed ? 'completed' : false}`}
+      data-testid="todos-item"
     >
       <ListItemText primary={todo.text} />
     </ListItem >

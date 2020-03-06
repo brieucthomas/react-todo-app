@@ -75,6 +75,7 @@ const TodoForm: React.FunctionComponent<TodoFormProps> = ({ todo }) => {
             autoFocus
             required
             fullWidth
+            data-testid="text"
           />
           <FormControlLabel
             label="Completed"

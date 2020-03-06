@@ -32,6 +32,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({ title, backToPath, backT
           {backToPath &&
             <IconButton
               edge="start"
+              data-testid="back"
               aria-label={backToTitle}
               component={RouterLink}
               to={backToPath}

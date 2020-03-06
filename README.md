@@ -43,6 +43,16 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+*  [React documentation](https://reactjs.org/)
+*  [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started)
+*  [Material UI](https://material-ui.com/)
+*  [End to End Testing React with Cypress](https://www.robinwieruch.de/react-testing-cypress)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Typescript
+
+*  [Material UI - TypeScript](https://material-ui.com/guides/typescript/)
+*  [Cypress - TypeScript](https://docs.cypress.io/guides/tooling/typescript-support.html)
+
+### Tests
+
+*  [Cypress - Best Practices](https://docs.cypress.io/guides/references/best-practices.html)
