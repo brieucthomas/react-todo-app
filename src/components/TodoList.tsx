@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { List, ListSubheader, makeStyles, Chip, Divider, Grid } from '@material-ui/core'
 import { v4 as uuid } from 'uuid'
 
-import { Todo as TodoType, VisibilityFilter } from '../types'
 import Todo from './Todo'
+import { Todo as TodoType } from '../store/todos/types'
+import { VisibilityFilter } from '../store/visibilityFilter/types'
 
 export interface TodoListProps {
   title: string
-  todos: TodoType[]
+  todos: TodoType[],
+  visibilityFilter: VisibilityFilter,
+  setVisibilityFilter: (f: VisibilityFilter) => void
 }
 
 const useStyles = makeStyles(theme => ({
@@ -27,28 +30,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const TodoList: React.FunctionComponent<TodoListProps> = ({ title, todos }) => {
+const TodoList: React.FunctionComponent<TodoListProps> = ({ title, todos, visibilityFilter, setVisibilityFilter }) => {
   const classes = useStyles()
   const history = useHistory()
   const labelId = uuid()
 
-  const [visibilityFilter, setVisibilityFilter] = useState<VisibilityFilter>(VisibilityFilter.ShowAll)
-
   const handleClick = (id: string) => {
     history.push(`/edit/${id}`)
   }
-
-  const filteredTodos = todos.filter(t => {
-    if (visibilityFilter === VisibilityFilter.ShowActive) {
-      return !t.completed
-    }
-
-    if (visibilityFilter === VisibilityFilter.ShowCompleted) {
-      return t.completed
-    }
-
-    return true
-  })
 
   return (
     <List
@@ -63,7 +52,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = ({ title, todos }) => {
           }}>
           <Grid container justify="space-between">
             <Grid item>
-              {`${title} (${filteredTodos.length})`}
+              {`${title} (${todos.length})`}
             </Grid>
             <Grid item>
               <Chip
@@ -93,10 +82,10 @@ const TodoList: React.FunctionComponent<TodoListProps> = ({ title, todos }) => {
       }
       className={classes.root}
     >
-      {filteredTodos.map((t, i) =>
+      {todos.map((t, i) =>
         <React.Fragment key={t.id}>
           <Todo todo={t} onClick={handleClick} />
-          {(filteredTodos[i + 1] !== undefined) && <Divider component="li" />}
+          {(todos[i + 1] !== undefined) && <Divider component="li" />}
         </React.Fragment>
       )}
     </List>

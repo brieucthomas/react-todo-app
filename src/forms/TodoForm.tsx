@@ -4,10 +4,13 @@ import { Formik, Form, Field, FormikHelpers } from 'formik'
 import { Box, Button, makeStyles, FormControlLabel } from '@material-ui/core'
 import { TextField, Switch } from 'formik-material-ui'
 
-import { Todo } from '../types'
+import { Todo } from '../store/todos/types'
 
 export interface TodoFormProps {
-  todo?: Todo
+  todo?: Todo,
+  onAdd: (todo: Todo) => void,
+  onEdit: (todo: Todo) => void,
+  onDelete: (id: string) => void
 }
 
 const useStyles = makeStyles(theme => ({
@@ -29,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const TodoForm: React.FunctionComponent<TodoFormProps> = ({ todo }) => {
+const TodoForm: React.FunctionComponent<TodoFormProps> = ({ todo, onAdd, onEdit, onDelete }) => {
   const classes = useStyles()
   const history = useHistory()
   const isNew: boolean = todo ? false : true
@@ -50,10 +53,14 @@ const TodoForm: React.FunctionComponent<TodoFormProps> = ({ todo }) => {
     return errors
   }
 
+  const goToHomepage = () => {
+    history.push('/')
+  }
+
   const OnSumbit = (values: Todo, { setSubmitting }: FormikHelpers<Todo>) => {
     setSubmitting(false)
-    console.log(values)
-    history.push('/')
+    isNew ? onAdd(values) : onEdit(values)
+    goToHomepage()
   }
 
   return (
@@ -102,7 +109,7 @@ const TodoForm: React.FunctionComponent<TodoFormProps> = ({ todo }) => {
                 variant="outlined"
                 color="primary"
                 disabled={isSubmitting}
-                onClick={submitForm}
+                onClick={() => todo && todo.id && onDelete(todo.id) && goToHomepage()}
               >
                 {'Delete'}
               </Button>

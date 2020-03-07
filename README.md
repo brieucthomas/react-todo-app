@@ -41,6 +41,17 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## Store
+
+### Actions
+
+[FSA](https://github.com/redux-utilities/flux-standard-action) defines four properties that are allowed on an action:
+
+*  type: *Required*. A string or Symbol indicating the action type.
+*  payload: *Optional*. Any value or object containing data related to the action.
+*  error: *Optional*. A boolean that, when true, indicates that the payload is an Error object.
+*  meta: *Optional*. Any value or object containing data that isn’t part of the payload.
+
 ## Learn More
 
 *  [React documentation](https://reactjs.org/)
@@ -52,6 +63,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 *  [Material UI - TypeScript](https://material-ui.com/guides/typescript/)
 *  [Cypress - TypeScript](https://docs.cypress.io/guides/tooling/typescript-support.html)
+*  [Redux - Typescript](https://redux.js.org/recipes/usage-with-typescript/)
 
 ### Tests
 

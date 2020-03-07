@@ -2,10 +2,9 @@ import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { makeStyles, Button, Typography, Grid, Hidden } from '@material-ui/core'
 
-import TodoList from './TodoList'
+import VisibleTodoList from '../containers/VisibleTodoList'
 import wheelbarrowImage from '../images/wheelbarrow.svg'
 import foodAndRestaurantImage from '../images/food-and-restaurant.svg'
-import data from '../data.json'
 
 export interface HomeProps { }
 
@@ -53,7 +52,7 @@ const Home: React.FunctionComponent<HomeProps> = () => {
           {'Add new todo'}
         </Button>
       </section>
-      <TodoList todos={data} title="Your Todos" />
+      <VisibleTodoList />
     </div>
   )
 }

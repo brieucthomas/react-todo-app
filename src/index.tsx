@@ -1,28 +1,41 @@
 import 'typeface-roboto'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider as StoreProvider } from 'react-redux'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
 
+import configureStore, { AppState } from './store'
+import { VisibilityFilter } from './store/visibilityFilter/types'
 import * as serviceWorker from './serviceWorker'
 import theme from './theme'
 import Page from './components/Page'
 import Home from './components/Home'
 import EditTodo from './components/EditTodo'
 import NotFound from './components/NotFound'
+import data from './data.json'
+
+const initialState: AppState = {
+  todos: data,
+  visibilityFilter: VisibilityFilter.ShowAll
+}
+
+const store = configureStore(initialState)
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <Router>
-      <Switch>
-        <Page exact path="/" component={Home} title="TodoList" />
-        <Page path="/new" component={EditTodo} title="Add new todo" backToPath="/" backToTitle="Back to homepage" />
-        <Page path="/edit/:id" component={EditTodo} title="Edit todo" backToPath="/" backToTitle="Back to homepage" />
-        <Page path="*" component={NotFound} title="Not Found" backToPath="/" backToTitle="Back to homepage" />
-      </Switch>
-    </Router>
-  </ThemeProvider>,
+  <StoreProvider store={store}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Switch>
+          <Page exact path="/" component={Home} title="TodoList" />
+          <Page path="/new" component={EditTodo} title="Add new todo" backToPath="/" backToTitle="Back to homepage" />
+          <Page path="/edit/:id" component={EditTodo} title="Edit todo" backToPath="/" backToTitle="Back to homepage" />
+          <Page path="*" component={NotFound} title="Not Found" backToPath="/" backToTitle="Back to homepage" />
+        </Switch>
+      </Router>
+    </ThemeProvider>
+  </StoreProvider>,
   document.getElementById('root')
 )
 

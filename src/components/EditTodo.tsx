@@ -1,21 +1,25 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 
-import TodoForm from '../forms/TodoForm'
-import data from '../data.json'
+import TodoForm from '../containers/TodoForm'
 
-export interface AddTodoProps { }
+type RouterParams = {
+  id: string
+}
 
-const AddTodo: React.FunctionComponent<AddTodoProps> = () => {
-  let { id } = useParams()
-  const todo = id ? data.find(t => t.id === id) : undefined
+export type EditTodoProps = RouteComponentProps<RouterParams> & {
+  id?: string
+}
+
+const EditTodo: React.FunctionComponent<EditTodoProps> = ({ match }) => {
+  const id = match.params.id
 
   return (
     <Container maxWidth="sm">
-      <TodoForm todo={todo} />
+      <TodoForm id={id} />
     </Container>
   )
 }
 
-export default AddTodo
+export default EditTodo
