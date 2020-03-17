@@ -3,10 +3,11 @@ import { Link as RouterLink } from 'react-router-dom'
 import { makeStyles, Button, Typography, Grid, Hidden } from '@material-ui/core'
 
 import VisibleTodoList from '../containers/VisibleTodoList'
-import wheelbarrowImage from '../images/wheelbarrow.svg'
-import foodAndRestaurantImage from '../images/food-and-restaurant.svg'
+import hammerImage from '../images/hammer.svg'
+import calendarImage from '../images/calendar.svg'
 
-export interface HomeProps { }
+export interface HomeProps {
+}
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -39,8 +40,8 @@ const Home: React.FunctionComponent<HomeProps> = () => {
             </Typography>
           </Grid>
           <Grid item xs={3} md={2}>
-            <Hidden smUp><img src={foodAndRestaurantImage} aria-hidden="true" alt="" className={classes.imgFluid} /></Hidden>
-            <Hidden xsDown><img src={wheelbarrowImage} aria-hidden="true" alt="" className={classes.imgFluid} /></Hidden>
+            <Hidden smUp><img src={hammerImage} aria-hidden="true" alt="" className={classes.imgFluid} /></Hidden>
+            <Hidden xsDown><img src={calendarImage} aria-hidden="true" alt="" className={classes.imgFluid} /></Hidden>
           </Grid>
         </Grid>
         <Button

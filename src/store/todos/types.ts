@@ -5,31 +5,147 @@ export interface Todo {
   completed?: boolean
 }
 
-export type TodosState = Todo[]
+export interface TodosState {
+  fetching?: boolean,
+  error?: Error,
+  items: Todo[]
+}
 
 // Describing the different ACTION NAMES available
-export const ADD_TODO = 'ADD_TODO'
-export const EDIT_TODO = 'EDIT_TODO'
-export const DELETE_TODO = 'DELETE_TODO'
+export const FETCH_TODOS_REQUESTED = 'FETCH_TODOS_REQUESTED'
+export const FETCH_TODOS_SUCCEEDED = 'FETCH_TODOS_SUCCEEDED'
+export const FETCH_TODOS_FAILED = 'FETCH_TODOS_FAILED'
+export const FETCH_TODOS_FINISHED = 'FETCH_TODOS_FINISHED'
+export const ADD_TODO_REQUESTED = 'ADD_TODO_REQUESTED'
+export const ADD_TODO_SUCCEEDED = 'ADD_TODO_SUCCEEDED'
+export const ADD_TODO_FAILED = 'ADD_TODO_FAILED'
+export const ADD_TODO_FINISHED = 'ADD_TODO_FINISHED'
+export const EDIT_TODO_REQUESTED = 'EDIT_TODO_REQUESTED'
+export const EDIT_TODO_SUCCEEDED = 'EDIT_TODO_SUCCEEDED'
+export const EDIT_TODO_FAILED = 'EDIT_TODO_FAILED'
+export const EDIT_TODO_FINISHED = 'EDIT_TODO_FINISHED'
+export const DELETE_TODO_REQUESTED = 'DELETE_TODO_REQUESTED'
+export const DELETE_TODO_SUCCEEDED = 'DELETE_TODO_SUCCEEDED'
+export const DELETE_TODO_FAILED = 'DELETE_TODO_FAILED'
+export const DELETE_TODO_FINISHED = 'DELETE_TODO_FINISHED'
 
-interface AddTodoAction {
-  type: typeof ADD_TODO
+export interface FetchTodosRequestedAction {
+  type: typeof FETCH_TODOS_REQUESTED
+}
+
+export interface FetchTodosSucceededAction {
+  type: typeof FETCH_TODOS_SUCCEEDED
+  payload: Todo[]
+}
+
+export interface FetchTodosFailedAction {
+  type: typeof FETCH_TODOS_FAILED
+  payload: Error,
+  error: true
+}
+
+export interface FetchTodosFinishedAction {
+  type: typeof FETCH_TODOS_FINISHED
+}
+
+export interface AddTodoRequestedAction {
+  type: typeof ADD_TODO_REQUESTED
+  payload: Todo
+  meta?: {
+    onSuccess?: () => void
+  }
+}
+
+export interface AddTodoSucceededAction {
+  type: typeof ADD_TODO_SUCCEEDED
   payload: Todo
 }
 
-interface EditTodoAction {
-  type: typeof EDIT_TODO
+export interface AddTodoFailedAction {
+  type: typeof ADD_TODO_FAILED
+  payload: Error
+  error: true
+  meta: {
+    todo: Todo
+  }
+}
+
+export interface AddTodoFinishedAction {
+  type: typeof ADD_TODO_FINISHED
+}
+
+export interface EditTodoRequestedAction {
+  type: typeof EDIT_TODO_REQUESTED
+  payload: Todo
+  meta: {
+    id: string
+    onSuccess?: () => void
+  }
+}
+
+export interface EditTodoSucceededAction {
+  type: typeof EDIT_TODO_SUCCEEDED
   payload: Todo
   meta: {
     id: string
   }
 }
 
-interface DeleteTodoAction {
-  type: typeof DELETE_TODO
+export interface EditTodoFailedAction {
+  type: typeof EDIT_TODO_FAILED
+  payload: Error
+  error: true
+  meta: {
+    todo: Todo
+  }
+}
+
+export interface EditTodoFinishedAction {
+  type: typeof EDIT_TODO_FINISHED
+}
+
+export interface DeleteTodoRequestedAction {
+  type: typeof DELETE_TODO_REQUESTED
+  meta: {
+    id: string,
+    onSuccess?: () => void
+  }
+}
+
+export interface DeleteTodoSucceededAction {
+  type: typeof DELETE_TODO_SUCCEEDED
   meta: {
     id: string
   }
 }
 
-export type TodosActionTypes = AddTodoAction | EditTodoAction | DeleteTodoAction
+export interface DeleteTodoFailedAction {
+  type: typeof DELETE_TODO_FAILED
+  payload: Error
+  error: true
+  meta: {
+    id: string
+  }
+}
+
+export interface DeleteTodoFinishedAction {
+  type: typeof DELETE_TODO_FINISHED
+}
+
+export type TodosActionTypes =
+  | FetchTodosRequestedAction
+  | FetchTodosSucceededAction
+  | FetchTodosFailedAction
+  | FetchTodosFinishedAction
+  | AddTodoRequestedAction
+  | AddTodoSucceededAction
+  | AddTodoFailedAction
+  | AddTodoFinishedAction
+  | EditTodoRequestedAction
+  | EditTodoSucceededAction
+  | EditTodoFailedAction
+  | EditTodoFinishedAction
+  | DeleteTodoRequestedAction
+  | DeleteTodoSucceededAction
+  | DeleteTodoFailedAction
+  | DeleteTodoFinishedAction

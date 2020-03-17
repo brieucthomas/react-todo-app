@@ -8,9 +8,9 @@ import { Todo } from '../store/todos/types'
 
 export interface TodoFormProps {
   todo?: Todo,
-  onAdd: (todo: Todo) => void,
-  onEdit: (todo: Todo) => void,
-  onDelete: (id: string) => void
+  onAdd: (todo: Todo, onSuccess: () => void) => void,
+  onEdit: (todo: Todo, onSuccess: () => void) => void,
+  onDelete: (id: string, onSuccess: () => void) => void
 }
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +43,7 @@ const TodoForm: React.FunctionComponent<TodoFormProps> = ({ todo, onAdd, onEdit,
 
   todo = todo ? todo : initialValues
 
-  const FormValidator = (values: Todo): Partial<Todo> => {
+  const formValidator = (values: Todo): Partial<Todo> => {
     const errors: Partial<Todo> = {}
 
     if (!values.text.trim()) {
@@ -53,21 +53,20 @@ const TodoForm: React.FunctionComponent<TodoFormProps> = ({ todo, onAdd, onEdit,
     return errors
   }
 
-  const goToHomepage = () => {
+  const onSuccess = () => {
     history.push('/')
   }
 
-  const OnSumbit = (values: Todo, { setSubmitting }: FormikHelpers<Todo>) => {
+  const onSumbit = (values: Todo, { setSubmitting }: FormikHelpers<Todo>) => {
     setSubmitting(false)
-    isNew ? onAdd(values) : onEdit(values)
-    goToHomepage()
+    isNew ? onAdd(values, onSuccess) : onEdit(values, onSuccess)
   }
 
   return (
     <Formik
       initialValues={initialValues}
-      validate={FormValidator}
-      onSubmit={OnSumbit}
+      validate={formValidator}
+      onSubmit={onSumbit}
     >
       {({ submitForm, isSubmitting }) => (
         <Form>
@@ -109,7 +108,7 @@ const TodoForm: React.FunctionComponent<TodoFormProps> = ({ todo, onAdd, onEdit,
                 variant="outlined"
                 color="primary"
                 disabled={isSubmitting}
-                onClick={() => todo && todo.id && onDelete(todo.id) && goToHomepage()}
+                onClick={() => todo && todo.id && onDelete(todo.id, onSuccess)}
               >
                 {'Delete'}
               </Button>

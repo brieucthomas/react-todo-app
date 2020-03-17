@@ -2,17 +2,17 @@ import { connect } from 'react-redux'
 
 import { AppState } from '../store'
 import { Todo } from '../store/todos/types'
-import { addTodo, editTodo, deleteTodo } from '../store/todos/actions'
+import { addTodoRequested, editTodoRequested, deleteTodoRequested } from '../store/todos/actions'
 import TodoForm from '../forms/TodoForm'
 
 const mapState = (state: AppState, ownProps: { id: string }) => ({
-  todo: ownProps.id ? state.todos.find(t => t.id === ownProps.id) : undefined
+  todo: ownProps.id ? state.todos.items.find(t => t.id === ownProps.id) : undefined
 })
 
 const mapDispatch = {
-  onAdd: (todo: Todo) => addTodo(todo),
-  onEdit: (todo: Todo) => todo.id && editTodo(todo.id, todo),
-  onDelete: (id: string) => deleteTodo(id)
+  onAdd: (todo: Todo, onSuccess: () => void) => addTodoRequested(todo, onSuccess),
+  onEdit: (todo: Todo, onSuccess: () => void) => todo.id && editTodoRequested(todo, onSuccess),
+  onDelete: (id: string, onSuccess: () => void) => deleteTodoRequested(id, onSuccess)
 }
 
 const connector = connect(mapState, mapDispatch)

@@ -1,10 +1,15 @@
 import { createStore, combineReducers, applyMiddleware, Middleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
+import { systemReducer } from './system/reducers'
 import { todosReducer } from './todos/reducers'
 import { visibilityFilterReducer } from './visibilityFilter/reducers'
 
+import { todosSaga } from './todos/sagas'
+
 const rootReducer = combineReducers({
+  system: systemReducer,
   todos: todosReducer,
   visibilityFilter: visibilityFilterReducer
 })
@@ -12,7 +17,10 @@ const rootReducer = combineReducers({
 export type AppState = ReturnType<typeof rootReducer>
 
 export default function configureStore(initialState?: AppState) {
-  const middlewares: Middleware[] = []
+  const sagaMiddleware = createSagaMiddleware()
+  const middlewares: Middleware[] = [
+    sagaMiddleware
+  ]
   const middleWareEnhancer = applyMiddleware(...middlewares)
 
   const store = createStore(
@@ -20,6 +28,8 @@ export default function configureStore(initialState?: AppState) {
     initialState,
     composeWithDevTools(middleWareEnhancer)
   )
+
+  sagaMiddleware.run(todosSaga)
 
   return store
 }

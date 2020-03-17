@@ -12,7 +12,7 @@ export type VisibilityFilterState = Values<typeof VisibilityFilter>
 // Describing the different ACTION NAMES available
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
 
-interface SetVisibilityFilterAction {
+export interface SetVisibilityFilterAction {
   type: typeof SET_VISIBILITY_FILTER
   meta: {
     visibilityFilter: VisibilityFilter
