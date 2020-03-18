@@ -12,6 +12,9 @@ export interface TodosState {
 }
 
 // Describing the different ACTION NAMES available
+export const REMOTE_TODO_ADDED = 'REMOTE_TODO_ADDED'
+export const REMOTE_TODO_EDITED = 'REMOTE_TODO_EDITED'
+export const REMOTE_TODO_DELETED = 'REMOTE_TODO_DELETED'
 export const FETCH_TODOS_REQUESTED = 'FETCH_TODOS_REQUESTED'
 export const FETCH_TODOS_SUCCEEDED = 'FETCH_TODOS_SUCCEEDED'
 export const FETCH_TODOS_FAILED = 'FETCH_TODOS_FAILED'
@@ -28,6 +31,21 @@ export const DELETE_TODO_REQUESTED = 'DELETE_TODO_REQUESTED'
 export const DELETE_TODO_SUCCEEDED = 'DELETE_TODO_SUCCEEDED'
 export const DELETE_TODO_FAILED = 'DELETE_TODO_FAILED'
 export const DELETE_TODO_FINISHED = 'DELETE_TODO_FINISHED'
+
+export interface RemoteTodoAddedAction {
+  type: typeof REMOTE_TODO_ADDED
+  payload: Todo
+}
+
+export interface RemoteTodoEditedAction {
+  type: typeof REMOTE_TODO_EDITED
+  payload: Todo
+}
+
+export interface RemoteTodoDeletedAction {
+  type: typeof REMOTE_TODO_DELETED
+  payload: Todo
+}
 
 export interface FetchTodosRequestedAction {
   type: typeof FETCH_TODOS_REQUESTED
@@ -133,6 +151,9 @@ export interface DeleteTodoFinishedAction {
 }
 
 export type TodosActionTypes =
+  | RemoteTodoAddedAction
+  | RemoteTodoEditedAction
+  | RemoteTodoDeletedAction
   | FetchTodosRequestedAction
   | FetchTodosSucceededAction
   | FetchTodosFailedAction

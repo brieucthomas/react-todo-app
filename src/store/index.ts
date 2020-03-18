@@ -5,8 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { systemReducer } from './system/reducers'
 import { todosReducer } from './todos/reducers'
 import { visibilityFilterReducer } from './visibilityFilter/reducers'
-
-import { todosSaga } from './todos/sagas'
+import { todosSaga, watchOnTodosChannel } from './todos/sagas'
 
 const rootReducer = combineReducers({
   system: systemReducer,
@@ -30,6 +29,7 @@ export default function configureStore(initialState?: AppState) {
   )
 
   sagaMiddleware.run(todosSaga)
+  sagaMiddleware.run(watchOnTodosChannel)
 
   return store
 }

@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { take, call, put, takeLatest } from 'redux-saga/effects'
 import API, { graphqlOperation } from '@aws-amplify/api'
 
 import { FETCH_TODOS_REQUESTED, ADD_TODO_REQUESTED, AddTodoRequestedAction, DeleteTodoRequestedAction, DELETE_TODO_REQUESTED, EDIT_TODO_REQUESTED } from './types'
@@ -7,6 +7,20 @@ import { listTodos } from '../../graphql/queries'
 import { createTodo, updateTodo, deleteTodo } from '../../graphql/mutations'
 import { showNotification } from '../system/actions'
 import { createSuccessNotification, createErrorNotification } from '../system/utils'
+import { createTodosChannel } from './channels'
+
+export function* watchOnTodosChannel() {
+  const amplifyChannel = yield call(createTodosChannel)
+
+  while (true) {
+    try {
+      const action = yield take(amplifyChannel)
+      yield put(action)
+    } catch (err) {
+      amplifyChannel.close()
+    }
+  }
+}
 
 export function* fetchTodos() {
   try {

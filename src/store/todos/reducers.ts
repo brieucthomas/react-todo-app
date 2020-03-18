@@ -7,6 +7,9 @@ import {
   ADD_TODO_SUCCEEDED,
   EDIT_TODO_SUCCEEDED,
   DELETE_TODO_SUCCEEDED,
+  REMOTE_TODO_ADDED,
+  REMOTE_TODO_DELETED,
+  REMOTE_TODO_EDITED,
 } from './types'
 import { Todo } from '../../store/todos/types'
 
@@ -18,6 +21,27 @@ const initialState: TodosState = {
 
 export const todosReducer = (state = initialState, action: TodosActionTypes): TodosState => {
   switch (action.type) {
+    case REMOTE_TODO_ADDED:
+      return {
+        ...state,
+        items: [...state.items, action.payload]
+      }
+    case REMOTE_TODO_EDITED:
+      return {
+        ...state,
+        items: state.items.map((todo: Todo) =>
+          (todo.id === action.payload.id)
+            ? action.payload
+            : todo
+        )
+      }
+    case REMOTE_TODO_DELETED:
+      return {
+        ...state,
+        items: state.items.filter((todo: Todo) =>
+          todo.id !== action.payload.id
+        )
+      }
     case FETCH_TODOS_REQUESTED:
       return {
         ...state,

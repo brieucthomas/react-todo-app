@@ -44,7 +44,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = ({ title, fetching, err
   const history = useHistory()
   const labelId = uuid()
 
-  useEffect(() => {
+  useEffect(() => {    
     fetchTodos()
   }, [fetchTodos])
 
