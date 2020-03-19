@@ -1,9 +1,9 @@
 import { take, call, put, takeLatest } from 'redux-saga/effects'
 import API, { graphqlOperation } from '@aws-amplify/api'
 
-import { FETCH_TODOS_REQUESTED, ADD_TODO_REQUESTED, AddTodoRequestedAction, DeleteTodoRequestedAction, DELETE_TODO_REQUESTED, EDIT_TODO_REQUESTED } from './types'
-import { fetchTodosSucceeded, fetchTodosFailed, fetchTodosFinished, addTodoSucceeded, addTodoFailed, addTodoFinished, editTodoSucceeded, editTodoFailed, editTodoFinished, deleteTodoSucceeded, deleteTodoFailed, deleteTodoFinished } from './actions'
-import { listTodos } from '../../graphql/queries'
+import { FETCH_TODOS_REQUESTED, ADD_TODO_REQUESTED, AddTodoRequestedAction, DeleteTodoRequestedAction, DELETE_TODO_REQUESTED, EDIT_TODO_REQUESTED, FetchSingleTodoRequestedAction, FETCH_SINGLE_TODO_REQUESTED } from './types'
+import { fetchTodosSucceeded, fetchTodosFailed, fetchTodosFinished, addTodoSucceeded, addTodoFailed, addTodoFinished, editTodoSucceeded, editTodoFailed, editTodoFinished, deleteTodoSucceeded, deleteTodoFailed, deleteTodoFinished, fetchSingleTodoSucceeded, fetchSingleTodoFailed, fetchSingleTodoFinished } from './actions'
+import { getTodo, listTodos } from '../../graphql/queries'
 import { createTodo, updateTodo, deleteTodo } from '../../graphql/mutations'
 import { showNotification } from '../system/actions'
 import { createSuccessNotification, createErrorNotification } from '../system/utils'
@@ -28,9 +28,21 @@ export function* fetchTodos() {
     yield put(fetchTodosSucceeded(response.data.listTodos.items))
   } catch (e) {
     yield put(fetchTodosFailed(e))
+    yield put(showNotification(createErrorNotification()))
   }
 
   yield put(fetchTodosFinished())
+}
+
+export function* fetchSingleTodo(action: FetchSingleTodoRequestedAction) {
+  try {
+    const response = yield call([API, 'graphql'], graphqlOperation(getTodo, { id: action.meta.id }))
+    yield put(fetchSingleTodoSucceeded(response.data.getTodo))
+  } catch (e) {
+    yield put(fetchSingleTodoFailed(action.meta.id, e))
+  }
+
+  yield put(fetchSingleTodoFinished())
 }
 
 export function* addTodo(action: AddTodoRequestedAction) {
@@ -77,6 +89,7 @@ export function* removeTodo(action: DeleteTodoRequestedAction) {
 
 export function* todosSaga() {
   yield takeLatest(FETCH_TODOS_REQUESTED, fetchTodos)
+  yield takeLatest(FETCH_SINGLE_TODO_REQUESTED, fetchSingleTodo)  
   yield takeLatest(ADD_TODO_REQUESTED, addTodo)
   yield takeLatest(EDIT_TODO_REQUESTED, editTodo)
   yield takeLatest(DELETE_TODO_REQUESTED, removeTodo)

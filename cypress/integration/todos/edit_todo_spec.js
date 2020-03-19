@@ -1,5 +1,5 @@
 describe('/edit', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/edit/aePhof2i')
   })
 
@@ -11,5 +11,12 @@ describe('/edit', () => {
     cy.get('[data-testid=text] input').type('Edited todo')
     cy.get('form').contains('Edit').click()
     cy.url().should('eq', 'http://localhost:3000/')
+    cy.findAllByText('Todo edited').should('exist')
   })
+
+  it('navigates to / on successful deletion', () => {
+    cy.get('form').contains('Delete').click()
+    cy.url().should('eq', 'http://localhost:3000/')
+    cy.findAllByText('Todo deleted').should('exist')
+  })  
 })

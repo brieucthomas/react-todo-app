@@ -10,6 +10,7 @@ import {
   REMOTE_TODO_ADDED,
   REMOTE_TODO_DELETED,
   REMOTE_TODO_EDITED,
+  FETCH_SINGLE_TODO_SUCCEEDED,
 } from './types'
 import { Todo } from '../../store/todos/types'
 
@@ -62,6 +63,14 @@ export const todosReducer = (state = initialState, action: TodosActionTypes): To
         fetching: false,
         error: action.payload,
         items: []
+      }
+    case FETCH_SINGLE_TODO_SUCCEEDED:
+      return {
+        ...state,
+        items: [
+          ...state.items,
+          action.payload
+        ]
       }
     case ADD_TODO_SUCCEEDED:
       return {

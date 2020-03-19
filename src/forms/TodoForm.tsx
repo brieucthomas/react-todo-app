@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Formik, Form, Field, FormikHelpers } from 'formik'
 import { Box, Button, makeStyles, FormControlLabel } from '@material-ui/core'
 import { TextField, Switch } from 'formik-material-ui'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 import { Todo } from '../store/todos/types'
 
 export interface TodoFormProps {
+  id?: string,
   todo?: Todo,
+  fetchTodo: (id: string) => void,
   onAdd: (todo: Todo, onSuccess: () => void) => void,
   onEdit: (todo: Todo, onSuccess: () => void) => void,
   onDelete: (id: string, onSuccess: () => void) => void
@@ -32,16 +35,19 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const TodoForm: React.FunctionComponent<TodoFormProps> = ({ todo, onAdd, onEdit, onDelete }) => {
+const TodoForm: React.FunctionComponent<TodoFormProps> = ({ id, todo, fetchTodo, onAdd, onEdit, onDelete }) => {
   const classes = useStyles()
   const history = useHistory()
-  const isNew: boolean = todo ? false : true
-  const initialValues: Todo = todo || {
+  const fetching = id && !todo
+
+  useEffect(() => {
+    id && fetchTodo(id)
+  }, [id])
+
+  const initialValues: Todo = {
     text: '',
     completed: false
   }
-
-  todo = todo ? todo : initialValues
 
   const formValidator = (values: Todo): Partial<Todo> => {
     const errors: Partial<Todo> = {}
@@ -59,65 +65,80 @@ const TodoForm: React.FunctionComponent<TodoFormProps> = ({ todo, onAdd, onEdit,
 
   const onSumbit = (values: Todo, { setSubmitting }: FormikHelpers<Todo>) => {
     setSubmitting(false)
-    isNew ? onAdd(values, onSuccess) : onEdit(values, onSuccess)
+    id ? onEdit(values, onSuccess) : onAdd(values, onSuccess)
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validate={formValidator}
-      onSubmit={onSumbit}
-    >
-      {({ submitForm, isSubmitting }) => (
-        <Form>
-          <Field
-            type="text"
-            name="text"
-            component={TextField}
-            classes={{
-              root: classes.field,
-            }}
-            label="Todo"
-            autoFocus
-            required
-            fullWidth
-            data-testid="text"
-          />
-          <FormControlLabel
-            label="Completed"
-            labelPlacement="start"
-            classes={{
-              root: classes.switcher,
-              label: classes.switcherLabel
-            }}
-            control={
-              <Field type="checkbox" name="completed" component={Switch} />
-            }
-          />
-          <Box mt={4} className={classes.actions}>
-            <Button
-              variant="outlined"
-              color="primary"
-              disabled={isSubmitting}
-              onClick={submitForm}
-            >
-              {isNew ? 'Add' : 'Edit'}
-            </Button>
-            {!isNew &&
-              <Button
-                variant="outlined"
-                color="primary"
-                disabled={isSubmitting}
-                onClick={() => todo && todo.id && onDelete(todo.id, onSuccess)}
-              >
-                {'Delete'}
-              </Button>
-            }
-          </Box>
-        </Form>
-      )
+    <React.Fragment>
+      {
+        fetching &&
+        <React.Fragment>
+          <Skeleton animation="wave" />
+          <Skeleton animation="wave" />
+          <Skeleton animation="wave" />
+          <Skeleton animation="wave" />
+        </React.Fragment>
       }
-    </Formik >
+      {
+        !fetching &&  
+        <Formik
+          initialValues={todo ? todo : initialValues}
+          validate={formValidator}
+          onSubmit={onSumbit}
+          enableReinitialize={true}
+        >
+          {({ submitForm, isSubmitting }) => (
+            <Form>
+              <Field
+                type="text"
+                name="text"
+                component={TextField}
+                classes={{
+                  root: classes.field,
+                }}
+                label="Todo"
+                autoFocus
+                required
+                fullWidth
+                data-testid="text"
+              />
+              <FormControlLabel
+                label="Completed"
+                labelPlacement="start"
+                classes={{
+                  root: classes.switcher,
+                  label: classes.switcherLabel
+                }}
+                control={
+                  <Field type="checkbox" name="completed" component={Switch} />
+                }
+              />
+              <Box mt={4} className={classes.actions}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  disabled={isSubmitting}
+                  onClick={submitForm}
+                >
+                  {id ? 'Edit' : 'Add'}
+                </Button>
+                {id &&
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    disabled={isSubmitting}
+                    onClick={() => id && onDelete(id, onSuccess)}
+                  >
+                    {'Delete'}
+                  </Button>
+                }
+              </Box>
+            </Form>
+          )
+          }
+        </Formik >
+      }
+    </React.Fragment>
   )
 }
 

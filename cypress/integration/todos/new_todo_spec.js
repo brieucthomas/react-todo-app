@@ -16,5 +16,6 @@ describe('/new', () => {
     cy.get('[data-testid=text] input').type('A new todo')
     cy.get('form').contains('Add').click()
     cy.url().should('eq', 'http://localhost:3000/')
+    cy.findAllByText('Todo created').should('exist')
   })
 })

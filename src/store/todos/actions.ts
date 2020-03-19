@@ -19,7 +19,10 @@ import {
   EDIT_TODO_FAILED,
   REMOTE_TODO_ADDED,
   REMOTE_TODO_EDITED,
-  REMOTE_TODO_DELETED
+  REMOTE_TODO_DELETED,
+  FETCH_SINGLE_TODO_REQUESTED,
+  FETCH_SINGLE_TODO_SUCCEEDED,
+  FETCH_SINGLE_TODO_FAILED
 } from './types'
 
 export const remoteTodoAdded = (todo: Todo): TodosActionTypes => ({
@@ -53,6 +56,31 @@ export const fetchTodosFailed = (error: Error): TodosActionTypes => ({
 })
 
 export const fetchTodosFinished = (): TodosActionTypes => ({
+  type: FETCH_TODOS_FINISHED
+})
+
+export const fetchSingleTodoRequested = (id: string): TodosActionTypes => ({
+  type: FETCH_SINGLE_TODO_REQUESTED,
+  meta: {
+    id
+  }
+})
+
+export const fetchSingleTodoSucceeded = (todo: Todo): TodosActionTypes => ({
+  type: FETCH_SINGLE_TODO_SUCCEEDED,
+  payload: todo
+})
+
+export const fetchSingleTodoFailed = (id: string, error: Error): TodosActionTypes => ({
+  type: FETCH_SINGLE_TODO_FAILED,
+  payload: error,
+  error: true,
+  meta: {
+    id
+  }
+})
+
+export const fetchSingleTodoFinished = (): TodosActionTypes => ({
   type: FETCH_TODOS_FINISHED
 })
 
@@ -139,4 +167,3 @@ export const deleteTodoFailed = (id: string, error: Error): TodosActionTypes => 
 export const deleteTodoFinished = (): TodosActionTypes => ({
   type: DELETE_TODO_FINISHED
 })
-

@@ -19,6 +19,10 @@ export const FETCH_TODOS_REQUESTED = 'FETCH_TODOS_REQUESTED'
 export const FETCH_TODOS_SUCCEEDED = 'FETCH_TODOS_SUCCEEDED'
 export const FETCH_TODOS_FAILED = 'FETCH_TODOS_FAILED'
 export const FETCH_TODOS_FINISHED = 'FETCH_TODOS_FINISHED'
+export const FETCH_SINGLE_TODO_REQUESTED = 'FETCH_SINGLE_TODO_REQUESTED'
+export const FETCH_SINGLE_TODO_SUCCEEDED = 'FETCH_SINGLE_TODO_SUCCEEDED'
+export const FETCH_SINGLE_TODO_FAILED = 'FETCH_SINGLE_TODO_FAILED'
+export const FETCH_SINGLE_TODO_FINISHED = 'FETCH_SINGLE_TODO_FINISHED'
 export const ADD_TODO_REQUESTED = 'ADD_TODO_REQUESTED'
 export const ADD_TODO_SUCCEEDED = 'ADD_TODO_SUCCEEDED'
 export const ADD_TODO_FAILED = 'ADD_TODO_FAILED'
@@ -64,6 +68,31 @@ export interface FetchTodosFailedAction {
 
 export interface FetchTodosFinishedAction {
   type: typeof FETCH_TODOS_FINISHED
+}
+
+export interface FetchSingleTodoRequestedAction {
+  type: typeof FETCH_SINGLE_TODO_REQUESTED
+  meta: {
+    id: string
+  }
+}
+
+export interface FetchSingleTodoSucceededAction {
+  type: typeof FETCH_SINGLE_TODO_SUCCEEDED
+  payload: Todo
+}
+
+export interface FetchSingleTodoFailedAction {
+  type: typeof FETCH_SINGLE_TODO_FAILED
+  payload: Error,
+  error: true,
+  meta: {
+    id: string
+  }
+}
+
+export interface FetchSingleTodoFinishedAction {
+  type: typeof FETCH_SINGLE_TODO_FINISHED
 }
 
 export interface AddTodoRequestedAction {
@@ -158,6 +187,10 @@ export type TodosActionTypes =
   | FetchTodosSucceededAction
   | FetchTodosFailedAction
   | FetchTodosFinishedAction
+  | FetchSingleTodoRequestedAction
+  | FetchSingleTodoSucceededAction
+  | FetchSingleTodoFailedAction
+  | FetchSingleTodoFinishedAction
   | AddTodoRequestedAction
   | AddTodoSucceededAction
   | AddTodoFailedAction
