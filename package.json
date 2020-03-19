@@ -41,6 +41,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "mock": "amplify mock api",
     "test": "react-scripts test",
     "test:cypress": "cypress open",
     "eject": "react-scripts eject"
