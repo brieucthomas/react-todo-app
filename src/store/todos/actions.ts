@@ -22,7 +22,8 @@ import {
   REMOTE_TODO_DELETED,
   FETCH_SINGLE_TODO_REQUESTED,
   FETCH_SINGLE_TODO_SUCCEEDED,
-  FETCH_SINGLE_TODO_FAILED
+  FETCH_SINGLE_TODO_FAILED,
+  FETCH_SINGLE_TODO_FINISHED
 } from './types'
 
 export const remoteTodoAdded = (todo: Todo): TodosActionTypes => ({
@@ -81,7 +82,7 @@ export const fetchSingleTodoFailed = (id: string, error: Error): TodosActionType
 })
 
 export const fetchSingleTodoFinished = (): TodosActionTypes => ({
-  type: FETCH_TODOS_FINISHED
+  type: FETCH_SINGLE_TODO_FINISHED
 })
 
 export const addTodoRequested = (newTodo: Todo, onSuccess?: () => void): TodosActionTypes => ({
