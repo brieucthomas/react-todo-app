@@ -43,6 +43,20 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Cypress tests
 
+Run Cypress tests: 
+
+```
+# 1. Run the app in the development mode
+$ yarn start
+
+# 2. Run mocks
+$ yarn mock
+
+# 3. Open Cypress
+$ yarn test:cypress
+```
+
+
 ![Cypress](docs/cypress.png)
 
 ## Store

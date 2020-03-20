@@ -42,7 +42,7 @@ const TodoForm: React.FunctionComponent<TodoFormProps> = ({ id, todo, fetchTodo,
 
   useEffect(() => {
     id && fetchTodo(id)
-  }, [id])
+  }, [])
 
   const initialValues: Todo = {
     text: '',
