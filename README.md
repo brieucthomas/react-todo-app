@@ -70,6 +70,12 @@ $ yarn test:cypress
 *  error: *Optional*. A boolean that, when true, indicates that the payload is an Error object.
 *  meta: *Optional*. Any value or object containing data that isn’t part of the payload.
 
+## Next steps
+
+*  [ ]  How to update automatically the API key?
+*  [ ]  Add unit tests for Sagas
+*  [ ]  Add sync tests for Cypress
+
 ## Learn More
 
 ### React
